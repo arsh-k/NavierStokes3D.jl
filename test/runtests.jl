@@ -22,7 +22,7 @@ Reference test: Testing pressure and velocities with respect to ground truth
 
 
 println("Starting reference test")
-include("./NavierStokes_arthur_multi_xpu_testing.jl")
+include("./NavierStokes_3d_multi_xpu_sphere_testing.jl")
 println("Reference test passed")
 
 

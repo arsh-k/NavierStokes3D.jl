@@ -103,13 +103,12 @@ The keyword argument includes:
     εit       = 1e-3
     niter     = 50*nx_g()
     nchk      = 1*(nx_g()-1)
-    nvis      = 10
     nt        = 10
     nsave     = 10
     CFLτ      = 0.9/sqrt(3)
     CFL_visc  = 1/5.1
     CFL_adv   = 1.0
-    dx,dy,dz     = lx/nx_g(),ly/ny_g(),lz/nz_g()
+    dx,dy,dz  = lx/nx_g(),ly/ny_g(),lz/nz_g()
     dt        = min(CFL_visc*dz^2*ρ/μ,CFL_adv*dz/vin)
     damp      = 2/nz_g()
     dτ        = CFLτ*dz
