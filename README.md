@@ -1,5 +1,7 @@
 # NavierStokes3D.jl
 
+[![Build Status](https://github.com/arsh-k/NavierStokes3D.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/arsh-k/NavierStokes3D.jl/actions/workflows/CI.yml?query=branch%3Aarthur)
+
 ### Physical Model (Partial Differential Equations)
 
 The following system of PDEs represent the incompressible Navier-Stokes equations. 
