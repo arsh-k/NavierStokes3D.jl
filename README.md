@@ -21,7 +21,9 @@ where $t$ is time, $\textbf{V}(\textbf{x},t) = [u,v,w]^T$ is the velocity vector
 A crucial component for visualizing the vortices around the stationary body is the vorticity. The vorticity components are evaluated as follows:
 
 $$ \omega_x=\frac{\partial w}{\partial y}-\frac{\partial v}{\partial z}$$
+
 $$ \omega_y=-(\frac{\partial u}{\partial z}-\frac{\partial w}{\partial x})$$
+
 $$ \omega_z=\frac{\partial v}{\partial x}-\frac{\partial u}{\partial y}$$
 
 For visualization purposes, we evaluate the magnitude of the vorticity:
