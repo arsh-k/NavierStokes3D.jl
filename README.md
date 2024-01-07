@@ -47,6 +47,14 @@ Then we proceed to evaluate the pressure using a pseudo-transient implementation
 
 Finally, a semi-Lagrangian approach which helps in streamline backtracking of the velocity. 
 
+### Weak Scaling
+
+The figure below indicates the normalized execution time as a function of the number of processes. It is observed that even as the global domain size increases as the number of processes increase there is a minor increase in execution time compared to a single process. The minor increase in execution time is due to communication between the multiple GPU nodes via `update_halo!` macro. 
+
+![Weak Scaling](./docs/weak_scaling_navier_stokes_3d_multixpu.png)
+
+To visualize the implications of weak scaling, we had to keep a fixed value of `nt` and `niter` within our weak scaling implementation. This ensures that the number of kernel calls are same for all multi-gpu configurations and remain unaffected by the time step size. The weak scaling implementation is provided in `navier_stokes_3d_multixpu_weak_scaling.jl` and the batch script for the same is provided in `navier_stokes_weak_scaling.sh`.
+
 ### Results 
 
 ### Discussion and Conclusion
