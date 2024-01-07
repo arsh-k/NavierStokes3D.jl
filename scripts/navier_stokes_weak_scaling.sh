@@ -1,7 +1,7 @@
 #!/bin/bash -l
-#SBATCH --job-name="Navier3D_ws"
-#SBATCH --output=Navier3D_ws.%j.o
-#SBATCH --error=Navier3D_ws.%j.e
+#SBATCH --job-name="Navier3DWeakScaling"
+#SBATCH --output=Navier3DWeakScaling.%j.o
+#SBATCH --error=Navier3DWeakScaling.%j.e
 #SBATCH --time=2:00:00
 #SBATCH --nodes=125
 #SBATCH --ntasks-per-node=1

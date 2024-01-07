@@ -40,8 +40,8 @@ The keyword arguments include:
     ## nondimensional parameters
     Re        = 1e6    # rho*vsc*lz/μ
     Fr        = Inf    # vsc/sqrt(g*ly)
-    lx_lz     = 0.6    # lx/lz
-    ly_lz     = 0.6    # ly/lz
+    lx_lz     = 0.5    # lx/lz
+    ly_lz     = 0.5    # ly/lz
     r_lz      = 0.05
     ox_lz     = 0.0
     oy_lz     = 0.0
@@ -56,15 +56,15 @@ The keyword arguments include:
     g         = 1/Fr^2*vin^2/lz
     r2        = (r_lz*lz)^2    
     # Numerics
-    nz        = 250
-    ny        = ceil(Int,nz*ly_lz)
-    nx        = ceil(Int,nz*lx_lz)
+    nz        = 255
+    ny        = floor(Int,nz*ly_lz)
+    nx        = floor(Int,nz*lx_lz)
     εit       = 1e-4
     niter     = 50*max(nx, ny, nz)
     nchk      = 1*(max(nx, ny, nz)-1)
-    nvis      = 5
-    nt        = 100
-    nsave     = 5
+    nvis      = 50
+    nt        = 2000
+    nsave     = 50
     CFLτ      = 0.9/sqrt(3) 
     CFL_visc  = 1/5.1
     CFL_adv   = 1.0 
