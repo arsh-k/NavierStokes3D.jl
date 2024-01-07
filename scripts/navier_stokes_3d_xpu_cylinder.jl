@@ -102,7 +102,7 @@ The keyword arguments include:
     # Iterative Solving
     for it = 1:nt
         err_evo = Float64[]; iter_evo = Float64[]
-        # Velocity update, divergence update, sphere BC update
+        # Velocity update, divergence update, cylinder BC update
         @parallel update_τ!(τxx,τyy,τzz,τxy,τxz,τyz,Vx,Vy,Vz,μ,dx,dy,dz)
         @parallel predict_V!(Vx,Vy,Vz,τxx,τyy,τzz,τxy,τxz,τyz,ρ,g,dt,dx,dy,dz)
         @parallel set_cylinder!(Vx,Vy,Vz,ox,oy,oz,lx,ly,lz,dx,dy,dz,r2)
