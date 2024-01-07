@@ -132,9 +132,8 @@ The keyword arguments include:
         if do_vis && it % nvis == 0
             p1=heatmap(xc,yc,Array(Pr)';aspect_ratio=1,xlims=(-lx/2,lx/2),ylims=(-ly/2,ly/2),title="Pr")
             p2=plot(iter_evo,err_evo;yscale=:log10)
-            p3=heatmap(xc,yc,Array(C)';aspect_ratio=1,xlims=(-lx/2,lx/2),ylims=(-ly/2,ly/2),title="C")
-            p4=heatmap(xc,yv,Array(Vy)';aspect_ratio=1,xlims=(-lx/2,lx/2),ylims=(-ly/2,ly/2),title="Vy")
-            display(plot(p1,p2,p3,p4))
+            p3=heatmap(xc,yv,Array(Vy)';aspect_ratio=1,xlims=(-lx/2,lx/2),ylims=(-ly/2,ly/2),title="Vy")
+            display(plot(p1,p2,p3))
         end
         if do_save && it % nsave == 0
             save_array("./out_vis_cylinder/out_Vx_$it", convert.(Float32, Array(Vx)))

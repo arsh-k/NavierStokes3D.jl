@@ -34,11 +34,18 @@ $$
 
 ### Boundary Conditions
 
-
+The `set_sphere!` function is used to set a no-slip boundary condition on a sphere of radius `0.05` centered at the coordinates $(x, y, z) = (0.0, 0.0, -0.4)$. 
 
 ### Numerical Method
 
-In order to solve the Navier Stokes PDEs, we implement the Chorin's projection method (operator splitting approach). 
+In order to solve the Navier Stokes PDEs, we implement the Chorin's projection method (operator splitting approach). This method involves the splitting of the velocity updates
+into separate steps based on the components of the Navier-Stokes equation.
+
+First, we perform an intermediate velocity update using the gravitational and viscous terms of the N-S equations. 
+
+Then we proceed to evaluate the pressure using a pseudo-transient implementation. 
+
+Finally, a semi-Lagrangian approach which helps in streamline backtracking of the velocity. 
 
 ### Results 
 
