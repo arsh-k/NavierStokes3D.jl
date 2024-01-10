@@ -51,14 +51,6 @@ Then we proceed to evaluate the pressure using a pseudo-transient solver.
 
 Finally, a semi-Lagrangian approach which helps in streamline backtracking of the velocity. 
 
-### Weak Scaling
-
-The figure below indicates the normalized execution time as a function of the number of processes. It is observed that even as the global domain size increases as the number of processes increase there is a minor increase in execution time compared to a single process. The minor increase in execution time is due to communication between the multiple GPU nodes via `update_halo!` macro. 
-
-![Weak Scaling](./docs/weak_scaling_navier_stokes_3d_multixpu.png)
-
-To visualize the implications of weak scaling, we had to keep a fixed value of `nt` and `niter` within our weak scaling implementation. This ensures that the number of kernel calls are same for all multi-gpu configurations and remain unaffected by the time step size. The weak scaling implementation is provided in `navier_stokes_3d_multixpu_weak_scaling.jl` and the batch script for the same is provided in `navier_stokes_weak_scaling.sh`.
-
 ### Results 
 
 The simulations have been performed to study the flow around a sphere in a three dimensional domain for a Reynolds number $Re=1e6$. The results for two simulations are presented within the folder `docs`. One simulation has been run on a single GPU and the other on 8 GPU nodes.
@@ -66,7 +58,7 @@ The simulations have been performed to study the flow around a sphere in a three
 #### Single GPU simulation 
 The lowest resolution has been performed on a single GPU with a grid size of `127*127*255` grid points and `nt=2000` time steps. 
 
-A visualization of the final results of the above mentionned simulation is offered in the following. First, the evolution of vorticity inside the domain is shown via a 3D animation: 
+A visualization of the final results of the above mentioned simulation is offered in the following. First, the evolution of vorticity inside the domain is shown via a 3D animation: 
 
 ![anim.gif](docs/gpu-solver-sphere/3D_vorticity.gif)
 
@@ -83,7 +75,7 @@ The 3D visualizations for pressure and velocity do not offer much insight. In or
 
 The simulation with the higher resolution (in the folder `multi-gpu-solver-sphere`) has been performed on 8 GPU nodes, for a global grid size of `252*252*508` grid points and `nt=2000` time steps. 
 
-A visualization of the final results of the above mentionned simulation is offered in the following. First, the evolution of vorticity inside the domain is shown via a 3D animation: 
+A visualization of the final results of the above mentioned simulation is offered in the following. First, the evolution of vorticity inside the domain is shown via a 3D animation: 
 
 ![anim.gif](docs/multi-gpu-solver-sphere/3D_vorticity.gif)
 
@@ -94,6 +86,14 @@ The 3D visualizations for pressure and velocity do not offer much insight. In or
 ![anim.gif](docs/multi-gpu-solver-sphere/slice_velocity_magnitude.gif)
 
 ![anim.gif](docs/multi-gpu-solver-sphere/slice_vorticity.gif)
+
+### Weak Scaling
+
+The figure below indicates the normalized execution time as a function of the number of processes. It is observed that even as the global domain size increases as the number of processes increase there is a minor increase in execution time compared to a single process. The minor increase in execution time is due to communication between the multiple GPU nodes via `update_halo!` macro. 
+
+![Weak Scaling](./docs/weak_scaling_navier_stokes_3d_multixpu.png)
+
+To visualize the implications of weak scaling, we had to keep a fixed value of `nt` and `niter` within our weak scaling implementation. This ensures that the number of kernel calls are same for all multi-gpu configurations and remain unaffected by the time step size. The weak scaling implementation is provided in `navier_stokes_3d_multixpu_weak_scaling.jl` and the batch script for the same is provided in `navier_stokes_weak_scaling.sh`.
 
 ### Running the software
 **NOTE**: To run any simulation on a CPU process, one has to change the variable `USE_GPU` to `false` in the Julia scripts.
