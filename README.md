@@ -59,7 +59,7 @@ We correct the velocity using the following update:
 
 $$\frac{\mathbf{V}^{n+1}-\mathbf{V}^*}{\Delta t}=-\frac{1}{\rho} \nabla p^{n+1}$$
 
-But for this we require the knowledge of pressure $p$ at $(n+1)$. Here, we exploit the fact that the next iterate of velocity obtained via our update has to be divergence-free as it should satisfy the continuity equation.
+But for this we require the knowledge of pressure $p$ at $(n+1)$. Here, we exploit the fact that the next iterate of velocity obtained via our update has to be divergence-free as it should satisfy the continuity equation. Hence, we obtain an equation for the pressure at the $(n+1)$ iteration:
 
 $$\nabla^2 p^{n+1}=\frac{\rho}{\Delta t} \nabla \cdot \mathbf{V}^*$$
 
@@ -67,7 +67,7 @@ We then proceed to evaluate the pressure using a pseudo-transient solver. The ps
 
 ## Results 
 
-The simulations have been performed to study the flow around a sphere in a three dimensional domain for a Reynolds number $Re=1e6$. The results for two simulations are presented within the folder `docs`. One simulation has been run on a single GPU and the other on 8 GPU nodes.
+The simulations have been performed to study the flow around a sphere in a three dimensional domain for a Reynolds number `Re=1e6`. The results for two simulations are presented within the folder `docs`. One simulation has been run on a single GPU and the other on 8 GPU nodes.
 
 ### Single GPU simulation 
 The lowest resolution has been performed on a single GPU with a grid size of `127*127*255` grid points and `nt=2000` time steps. 
