@@ -61,7 +61,7 @@ $$\frac{\mathbf{V}^{n+1}-\mathbf{V}^*}{\Delta t}=-\frac{1}{\rho} \nabla p^{n+1}$
 
 But for this we require the knowledge of pressure $p$ at $(n+1)$. Here, we exploit the fact that the next iterate of velocity obtained via our update has to be divergence-free as it should satisfy the continuity equation.
 
-$\nabla^2 p^{n+1}=\frac{\rho}{\Delta t} \nabla \cdot \mathbf{V}^*$
+$$\nabla^2 p^{n+1}=\frac{\rho}{\Delta t} \nabla \cdot \mathbf{V}^*$$
 
 We then proceed to evaluate the pressure using a pseudo-transient solver. The pseudo-transient solver has been implemented in the `update_dPrdτ!` and `update_Pr!` functions.
 
