@@ -82,16 +82,19 @@ function visualise_velocity_mag_slice(iframe = 0)
     Vy      = zeros(Float32, nx, ny, nz  )
     Vz      = zeros(Float32, nx, ny, nz  )
     Vmag    = zeros(Float32, nx, ny, nz  )
-    load_array("out_Vx_$(iframe*100)", Vx)
-    load_array("out_Vy_$(iframe*100)", Vy)
-    load_array("out_Vz_$(iframe*100)", Vz)
+    load_array("../scripts/out_vis_all/out_Vx_$(iframe*100)", Vx)
+    load_array("../scripts/out_vis_all/out_Vy_$(iframe*100)", Vy)
+    load_array("../scripts/out_vis_all/out_Vz_$(iframe*100)", Vz)
     Vx     .= Array(Vx)
     Vy     .= Array(Vy)
     Vz     .= Array(Vz)
     Vmag .= sqrt.(Vx .^ 2 .+ Vy .^ 2 .+ Vz .^ 2)
     xc, yc, zc = LinRange(-lx/2 ,lx/2 ,nx+1),LinRange(-ly/2,ly/2,ny+1), LinRange(-lz/2, lz/2, nz+1)
     p1=heatmap(xc,zc,Vmag[:, ceil(Int, ny/ 2), :]';aspect_ratio=1,xlims=(-lx/2,lx/2),ylims=(-lz/2,lz/2),title="Velocity Magnitude", c=:summer, clims=(0,2.5))
-    png(p1, @sprintf("../slice_velocity_mag_s_multixpu/%06d.png", iframe))
+    if !isdir("./slice_velocity_mag_s_multixpu")
+        mkdir("./slice_velocity_mag_s_multixpu")
+    end
+    png(p1, @sprintf("./slice_velocity_mag_s_multixpu/%06d.png", iframe))
     return
 end
 
@@ -100,10 +103,13 @@ function visualise_pressure_slice(iframe = 0)
     nz = 506
     nx = ny = 250
     Pr  = zeros(Float32, nx, ny, nz)
-    load_array("out_Pr_$(iframe*100)", Pr)
+    load_array("../scripts/out_vis_all/out_Pr_$(iframe*100)", Pr)
     xc, yc, zc = LinRange(-lx/2 ,lx/2 ,nx+1),LinRange(-ly/2,ly/2,ny+1), LinRange(-lz/2, lz/2, nz+1)
     p1=heatmap(xc,zc,Pr[:, ceil(Int, ny/ 2), :]';aspect_ratio=1,xlims=(-lx/2,lx/2),ylims=(-lz/2,lz/2),title="Pressure Field", c=:turbo, clims=(-2,2))
-    png(p1, @sprintf("../slice_pressure_s_multixpu/%06d.png", iframe))
+    if !isdir("./slice_pressure_s_multixpu")
+        mkdir("./slice_pressure_s_multixpu")
+    end
+    png(p1, @sprintf("./slice_pressure_s_multixpu/%06d.png", iframe))
     return
 end
 
@@ -119,16 +125,19 @@ function visualise_vorticity_slice(iframe = 0)
     Vx  = zeros(Float32, nx, ny, nz)
     Vy  = zeros(Float32, nx, ny, nz)
     Vz  = zeros(Float32, nx, ny, nz)
-    load_array("out_Vx_$(iframe*100)", Vx)
-    load_array("out_Vy_$(iframe*100)", Vy)
-    load_array("out_Vz_$(iframe*100)", Vz)
+    load_array("../scripts/out_vis_all/out_Vx_$(iframe*100)", Vx)
+    load_array("../scripts/out_vis_all/out_Vy_$(iframe*100)", Vy)
+    load_array("../scripts/out_vis_all/out_Vz_$(iframe*100)", Vz)
     ωx .= avy(diff(Vz, dims = 2))[2:end-1,:,2:end-1]./dy .- avz(diff(Vy, dims = 3))[2:end-1,2:end-1,:]./dz
     ωy .= avz(diff(Vx, dims = 3))[2:end-1,2:end-1,:]./dz .- avx(diff(Vz, dims = 1))[:,2:end-1,2:end-1]./dx
     ωz .= avx(diff(Vy, dims = 1))[:,2:end-1,2:end-1]./dx .- avy(diff(Vx, dims = 2))[2:end-1,:,2:end-1]./dy
     ω  .= sqrt.(ωx .^ 2 .+ ωy .^ 2 .+ ωz .^ 2)
     xc, yc, zc = LinRange(-lx/2 + dx ,lx/2 - dx ,nx-1),LinRange(-ly/2 + dy, ly/2 - dy, ny-1), LinRange(-lz/2 + dz, lz/2 - dz, nz-1)
     p1=heatmap(xc,zc,ω[:, ceil(Int, ny/ 2), :]';aspect_ratio=1,xlims=(-lx/2,lx/2),ylims=(-lz/2,lz/2),title="Vorticity",c=:cool, clims=(0,600))
-    png(p1, @sprintf("../slice_vorticity_s_multixpu/%06d.png", iframe))
+    if !isdir("./slice_vorticity_s_multixpu")
+        mkdir("./slice_vorticity_s_multixpu")
+    end
+    png(p1, @sprintf("./slice_vorticity_s_multixpu/%06d.png", iframe))
     return
 end
 
@@ -144,9 +153,11 @@ end
 import Plots:Animation, buildanimation 
 nframes = 20            
 fnames = [@sprintf("%06d.png", k) for k in 1:nframes]
-anim_Vmag = Animation("../slice_velocity_mag_s_multixpu/", fnames); 
-buildanimation(anim_Vmag, "../slice_velocity_mag_s_multixpu/navier_stokes_slice_Vmag_multigpu.gif", fps = 5, show_msg=false)    
-anim_p = Animation("../slice_pressure_s_multixpu/", fnames); 
-buildanimation(anim_p, "../slice_pressure_s_multixpu/navier_stokes_slice_pressure_multigpu.gif", fps = 5, show_msg=false)
-anim_ω = Animation("../slice_vorticity_s_multixpu/", fnames); 
-buildanimation(anim_ω, "../slice_vorticity_s_multixpu/navier_stokes_slice_vorticity_multigpu.gif", fps = 5, show_msg=false)
+anim_Vmag = Animation("./slice_velocity_mag_s_multixpu/", fnames); 
+buildanimation(anim_Vmag, "./slice_velocity_mag_s_multixpu/navier_stokes_slice_Vmag_multigpu.gif", fps = 5, show_msg=false)  
+
+anim_p = Animation("./slice_pressure_s_multixpu/", fnames); 
+buildanimation(anim_p, "./slice_pressure_s_multixpu/navier_stokes_slice_pressure_multigpu.gif", fps = 5, show_msg=false)
+
+anim_ω = Animation("./slice_vorticity_s_multixpu/", fnames); 
+buildanimation(anim_ω, "./slice_vorticity_s_multixpu/navier_stokes_slice_vorticity_multigpu.gif", fps = 5, show_msg=false)
