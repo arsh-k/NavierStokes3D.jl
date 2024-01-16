@@ -55,9 +55,6 @@ Averages the array in z-direction.
 @views avz(A) = 0.5 .*(A[:,:,1:end-1] .+ A[:,:,2:end])
 
 
-
-
-
 """
     Navier_Stokes_3D_multixpu(; do_save)
 
@@ -209,10 +206,7 @@ The keyword argument includes:
             Vx_truth   = zeros(nx_v, ny_v, nz_v) 
             Vy_truth   = zeros(nx_v, ny_v, nz_v) 
             Vz_truth   = zeros(nx_v, ny_v, nz_v)
-            #load_array("./out_ground_truth/out_Pr_10",Pr_truth)
-            #load_array("./out_ground_truth/out_Vx_10",Vx_truth)
-            #load_array("./out_ground_truth/out_Vy_10",Vy_truth)
-            #load_array("./out_ground_truth/out_Vz_10",Vz_truth)
+
             load_array("./out/out_Pr_10",Pr_truth)
             load_array("./out/out_Vx_10",Vx_truth)
             load_array("./out/out_Vy_10",Vy_truth)
@@ -249,7 +243,6 @@ Computes the shear stress tensor.
     @all(τzz) = 2μ*(@d_za(Vz)/dz - @∇V()/3.0)
     @all(τxz) =  μ*(@d_zi(Vx)/dz + @d_xi(Vz)/dx)
     @all(τyz) =  μ*(@d_zi(Vy)/dz + @d_yi(Vz)/dy)
-
     return
 end
 
@@ -392,14 +385,10 @@ initial condition for the `Vz` velocity component within the xy-plane.
 function set_bc_Vel!(Vx, Vy, Vz, Vprof)
     @parallel bc_xy!(Vx)
     @parallel bc_xz!(Vx)
-
     @parallel bc_xy!(Vy)
     @parallel bc_yz!(Vy)
-
     @parallel bc_xz!(Vz)
-
     @parallel bc_yz!(Vz)
-
     @parallel bc_zV!(Vz, Vprof)
     return
 end
@@ -432,11 +421,9 @@ Performs backtracking for fluid velocities in the advection scheme.
     fx11      = lerp(A_o[ix1,iy1,iz1],A_o[ix2,iy1,iz1],δx)
     fx12      = lerp(A_o[ix1,iy2,iz1],A_o[ix2,iy2,iz1],δx)
     fx1 = lerp(fx11,fx12,δy)
-
     fx21      = lerp(A_o[ix1,iy1,iz2],A_o[ix2,iy1,iz2],δx)
     fx22      = lerp(A_o[ix1,iy2,iz2],A_o[ix2,iy2,iz2],δx)
     fx2 = lerp(fx21,fx22,δy)
-
     A[ix,iy,iz] = lerp(fx1,fx2,δz)
     return
 end
@@ -466,7 +453,6 @@ Implements semi-Lagrangian advection scheme with linear interpolation.
         vzc      = 0.25*(Vz_o[ix,iy-1,iz]+Vz_o[ix,iy-1,iz+1]+Vz_o[ix,iy,iz]+Vz_o[ix,iy,iz+1])
         backtrack!(Vy,Vy_o,vxc,vyc,vzc,dt,dx,dy,dz,ix,iy,iz)
     end
-
     if iz > 1 && iz < size(Vz,3) && ix <= size(Vz,1) && iy<=size(Vz,2)
         vxc      = 0.25*(Vx_o[ix,iy,iz-1]+Vx_o[ix+1,iy,iz-1]+Vx_o[ix,iy,iz]+Vx_o[ix+1,iy,iz])
         vyc      = 0.25*(Vy_o[ix,iy,iz-1]+Vy_o[ix,iy+1,iz-1]+Vy_o[ix,iy,iz]+Vy_o[ix,iy+1,iz])
@@ -486,7 +472,6 @@ Sets a spherical object in the three-dimensional domain with a no-slip surface.
 @parallel_indices (ix,iy,iz) function set_sphere!(C,Vx,Vy,Vz,ox,oy,oz,lx,ly,lz,dx,dy,dz,r2,nx,ny,nz,coords)
     xc,yc,zc = (coords[1]*(nx-2)+(ix-1))*dx+dx/2-lx/2,(coords[2]*(ny-2)+(iy-1))*dy+dy/2-ly/2,(coords[3]*(nz-2)+(iz-1))*dz+dz/2-lz/2
     xv,yv,zv = (coords[1]*(nx-2)+(ix-1))*dx-lx/2,(coords[2]*(ny-2)+(iy-1))*dy-ly/2,(coords[3]*(nz-2)+(iz-1))*dz-lz/2
-
     # Enable to set concentration for testing 
     if checkbounds(Bool,C,ix,iy,iz)
         xr = (xc-ox)

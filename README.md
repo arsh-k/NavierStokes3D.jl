@@ -127,7 +127,7 @@ Otherwise, a GPU process can also be launched on a single GPU node:
 
 ```
 cd scripts
-mkdir out_vis_all
+mkdir out_vis_all_xpu
 sbatch navier_stokes_xpu.sh
 ```
 
