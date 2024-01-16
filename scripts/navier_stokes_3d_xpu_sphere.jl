@@ -136,10 +136,10 @@ The keyword arguments include:
             display(plot(p1,p2,p3))
         end
         if do_save && it % nsave == 0
-            save_array("./out_vis_all/out_Vx_$it", convert.(Float32, Array(Vx)))
-            save_array("./out_vis_all/out_Vy_$it", convert.(Float32, Array(Vy)))
-            save_array("./out_vis_all/out_Vz_$it", convert.(Float32, Array(Vz)))
-            save_array("./out_vis_all/out_Pr_$it", convert.(Float32, Array(Pr)))
+            save_array("./out_vis_all_xpu/out_Vx_$it", convert.(Float32, Array(Vx)))
+            save_array("./out_vis_all_xpu/out_Vy_$it", convert.(Float32, Array(Vy)))
+            save_array("./out_vis_all_xpu/out_Vz_$it", convert.(Float32, Array(Vz)))
+            save_array("./out_vis_all_xpu/out_Pr_$it", convert.(Float32, Array(Pr)))
         end
     end
     return

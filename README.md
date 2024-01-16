@@ -149,3 +149,12 @@ Pkg.activate('.')
 Pkg.instantiate()
 include("runtests.jl")
 ``` 
+
+## Visualization
+
+The scripts for visualizing the results of the multi-XPU and XPU configurations have been provided in the `visualization` folder. Note that for all the scripts the following variables must be changed according to the simulation performed:
+
+1. `nt` - Number of times data files for pressure and velocity were saved during the simulation.
+2. `frames` - The number of iterations between each data file save.
+
+Currently, these have been set according to the simulations performed in the `scripts` folder.
